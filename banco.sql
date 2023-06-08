@@ -1,12 +1,11 @@
 CREATE TABLE "doctor" (
-	"id" integer NOT NULL,
-	"crm" integer NOT NULL,
-	"nome" varchar NOT NULL,
-	"especialidade" varchar NOT NULL,
-	"image" VARCHAR(255) NOT NULL,
-	"email" VARCHAR(255) NOT NULL,
-	"password" VARCHAR(255) NOT NULL,
-	CONSTRAINT "doctor_pk" PRIMARY KEY ("id")
+	"id" serial PRIMARY KEY,
+	"crm" integer,
+	"nome" varchar,
+	"especialidade" varchar,
+	"image" VARCHAR(255),
+	"email" VARCHAR(255),
+	"password" VARCHAR(255),
 );
 
 

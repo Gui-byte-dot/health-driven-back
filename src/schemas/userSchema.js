@@ -1,6 +1,6 @@
 import joi from 'joi';
 
-const doctorSchema = joi.object({
+export const doctorSchema = joi.object({
     crm:joi.number().required(),
     nome:joi.string().required(),
     especialidade:joi.string().required(),
@@ -10,7 +10,7 @@ const doctorSchema = joi.object({
 
 });
 
-const patientSchema = joi.object({
+export const patientSchema = joi.object({
     cpf:joi.number().required(),
     name:joi.string().required(),
     data_nascimento:joi.date().required(),
@@ -20,10 +20,4 @@ const patientSchema = joi.object({
 
 });
 
-const userSchema = {
-    doctorSchema,
-    patientSchema
-}
-
-export default userSchema;
 

@@ -1,15 +1,18 @@
-import bcrypt from 'bcrypt';
-import "dotenv/config";
+import bcrypt from "bcrypt";
 import doctorRepository from '../repositories/doctor.repository.js';
 import {v4 as uuidV4} from "uuid";
+ 
+async function createDoctor({ crm, nome, especialidade, image,email,password}) {
 
-async function createDoctor({ crm, nome, especialidade, image,email, password }) {
  
     const {rowCount} = await doctorRepository.findByEmail(email);
     if(rowCount) throw new Error ("Internal Error");
+    
+    // const hashPassword = await bcrypt.hash(password, 10);
 
-    const hashPassword = await bcrypt.hash(password, 10);
-    await doctorRepository.createDoctor({ crm, nome, especialidade, image,email, password: hashPassword });
+
+    await doctorRepository.createDoctor({ crm, nome, especialidade, image,email, password});
+
 }
 
 async function signIn({email, password}) {
@@ -28,9 +31,5 @@ async function signIn({email, password}) {
     return token;
 }
 
-const doctorServices = {
-    createDoctor,
-    signIn
-}
 
-export default doctorServices;
+export default {createDoctor, signIn}

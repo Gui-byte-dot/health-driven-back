@@ -2,8 +2,15 @@
 import doctorServices from "../services/doctor.services.js";
 
 
+
 async function createDoctor(req,res) {
-    const {crm, nome, especialidade, image, email, password} = req.body;
+    
+    const {crm, nome, especialidade, image, email,password} = req.body;
+    console.log(crm)
+
+    
+
+
     try{
         await doctorServices.createDoctor(crm, nome, especialidade, image, email, password);
         return res.sendStatus(201);
@@ -24,9 +31,5 @@ async function signIn(req,res){
     }
 }
 
-const doctorControllers =  {
-    createDoctor,
-    signIn
-}
 
-export default doctorControllers;
+export default {createDoctor, signIn}
