@@ -4,7 +4,7 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon src/server.js",
+    "start": "node src/server.js",
     "dev": "nodemon src/server.js"
 
   },
@@ -25,15 +25,5 @@
     "nodemon": "^2.0.22",
     "pg": "^8.11.0",
     "uuid": "^9.0.0"
-  },
-  "devDependencies": {},
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Gui-byte-dot/health-driven-back.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Gui-byte-dot/health-driven-back/issues"
-  },
-  "homepage": "https://github.com/Gui-byte-dot/health-driven-back#readme",
-  "description": ""
+  }
 }

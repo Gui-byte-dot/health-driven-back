@@ -1,35 +1,35 @@
 CREATE TABLE "doctor" (
 	"id" serial PRIMARY KEY,
-	"crm" integer,
-	"nome" varchar,
-	"especialidade" varchar,
-	"image" VARCHAR(255),
-	"email" VARCHAR(255),
-	"password" VARCHAR(255),
+	"crm" integer NOT NULL,
+	"nome" character varying(50) NOT NULL,
+	"especialidade" character varying(50) NOT NULL,
+	"image" character varying(50) NOT NULL,
+	"email" character varying(50) NOT NULL,
+	"password" character varying(255) NOT NULL,
 );
 
 
 
 
 CREATE TABLE "patient" (
-	"id" serial NOT NULL,
-	"cpf" varchar NOT NULL,
-	"name" VARCHAR(255) NOT NULL,
+	"id" serial PRIMARY KEY,
+	"cpf" BIGINT NOT NULL,
+	"name" character varying(50) NOT NULL,
 	"data_nascimento" DATE NOT NULL,
-	"email" VARCHAR(255) NOT NULL,
-	"password" VARCHAR(255) NOT NULL,
-	"image" VARCHAR(255) NOT NULL,
-	CONSTRAINT "patient_pk" PRIMARY KEY ("id")
+	"email" character varying(50) NOT NULL,
+	"password" character varying(255) NOT NULL,
+	"image" character varying(50) NOT NULL,
 );
 
 
 
-CREATE TABLE "horaries" (
+CREATE TABLE "appointments" (
 	"id" serial NOT NULL,
 	"doctor_id" integer NOT NULL,
-	"horario" TIMESTAMP NOT NULL,
-	"disponivel" BOOLEAN NOT NULL,
-	CONSTRAINT "horaries_pk" PRIMARY KEY ("id")
+	"patient_id" integer NOT NULL,
+	"date" DATE,
+	"hours" TIME WITHOUT TIME ZONE,
+	CONSTRAINT "appointments_pk" PRIMARY KEY ("id")
 );
 
 CREATE TABLE "doctorSessions" (
