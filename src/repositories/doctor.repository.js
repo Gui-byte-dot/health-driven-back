@@ -25,4 +25,13 @@ async function createSession ({token, userId}) {
     )
 }
 
-export default {createSession, findByEmail, signUp}
+async function findToken(token){
+    return await connectionDB.query(`SELECT * FROM "doctorSessions" WHERE token=$1`,[token]);
+}
+
+
+async function findById(id){
+    return await connectionDB.query(`SELECT * FROM doctor WHERE id=$1`,[id]);
+} 
+
+export default {createSession, findByEmail, signUp, findToken, findById}

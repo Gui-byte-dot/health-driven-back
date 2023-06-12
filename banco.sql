@@ -38,7 +38,7 @@ CREATE TABLE "doctorSessions" (
 );
 
 CREATE TABLE "patientSessions" (
-	"token" VARCHAR(32) NOT NULL UNIQUE,
+	"token" VARCHAR(50) NOT NULL UNIQUE,
 	"userId" integer NOT NULL
 );
 

@@ -34,16 +34,16 @@ async function signIn(req,res){
         console.log(user);
         console.log(user.password)
 
-        console.log(token);
 
         if (bcrypt.compareSync(password, user.password)) {
+            console.log(token);
             await connectionDB.query(
-                `
-                    INSERT INTO "patientSessions" (token, "userId")
+                `INSERT INTO "patientSessions" (token, "userId")
                     VALUES ($1, $2)  
-                `
+                `,
                 [token, user.id]
             )
+            
             
         }
         return res.status(201).send({ token: token });
@@ -54,7 +54,26 @@ async function signIn(req,res){
     }
 }
 
+async function createAppointment(req,res){
+    const id = res.locals.user;
+    const {doctor_id,date,hours} = req.body;
+
+    try{
+        await patientServices.createAppointment({
+            doctor_id,
+            patient_id:id,
+            date,
+            hours
+        });
+        return res.sendStatus(201);
+    }catch(err){
+        res.status(500).send(err.message);
+    }
+}
+
+
 export default {
     createPatient,
-    signIn
+    signIn,
+    createAppointment
 };

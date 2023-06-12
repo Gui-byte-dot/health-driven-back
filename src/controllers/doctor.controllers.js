@@ -25,8 +25,7 @@ async function createDoctor(req,res) {
 async function signIn(req,res){
     const {email, password} = req.body;
  
-
-    
+   
     try{
         const {rows: users} = await connectionDB.query(`SELECT * FROM doctor WHERE email=$1`, [email]);
         if(users.length === 0) throw new Error;
