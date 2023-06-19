@@ -34,4 +34,12 @@ async function findById(id){
     return await connectionDB.query(`SELECT * FROM doctor WHERE id=$1`,[id]);
 } 
 
-export default {createSession, findByEmail, signUp, findToken, findById}
+async function findByName(nome){
+    return await connectionDB.query(`SELECT * FROM  doctor WHERE nome=$1`,[nome])
+}
+
+async function findByEspecialty(especialidade){
+    return await connectionDB.query(`SELECT * FROM doctor WHERE especialidade=$1`,[especialidade]);
+}
+
+export default {createSession, findByEmail, signUp, findToken, findById, findByName, findByEspecialty};

@@ -15,10 +15,11 @@ async function createPatient({ cpf, name, data_nascimento, email, password, imag
 
 async function createAppointment({doctor_id,patient_id,date,hours}){
 
-    const {rows:[appointment]} = await appointmentRepository.findAppointment({doctor_id,patient_id,date,hours})
+    const {rows:[appointment]} = await appointmentRepository.findAppointment(doctor_id,patient_id,date,hours);
     if(appointment) throw new Error("Unavailable");
 
-    await appointmentRepository.createAppointment({doctor_id,patient_id,date,hour})
+    await appointmentRepository.createAppointment({doctor_id,patient_id,date,hours});
+    
 }
 
 

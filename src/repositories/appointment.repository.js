@@ -15,5 +15,13 @@ async function findAppointment({doctor_id, date, hours}){
     )
 }
 
+async function findAppointmentByPatient({patient_id}){
+    await connectionDB.query(
+        `SELECT appointments.*, doctor.nome, doctor.especialidade FROM appointments 
+        JOIN doctor ON appointments."doctor_id" = doctor.id WHERE "patient_id"=$1`,[patient_id]); 
+   
+}
 
-export default {createAppointment, findAppointment};
+
+
+export default {createAppointment, findAppointment, findAppointmentByPatient};

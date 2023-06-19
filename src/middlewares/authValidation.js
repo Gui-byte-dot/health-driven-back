@@ -11,28 +11,28 @@ async function authValidation(req,res,next){
         const {rows: [patientSession]} = await connectionDB.query(`SELECT * FROM "patientSessions" WHERE token=$1`,[token]);
         const {rows: [doctorSession]} =  await connectionDB.query(`SELECT * FROM "doctorSessions" WHERE token=$1`,[token]);
 
-        console.log(patientSession);
-
-
         if(!patientSession && !doctorSession){
             return res.status(401).send("Sessions not found");
         } else if (!patientSession){
             const {rows: [user]} = await connectionDB.query(`SELECT * FROM doctor WHERE id=$1`,[doctorSession.userId]);
-            if(!user) return res.status(401).send("User not found")
+            if(!user) return res.status(401).send("User not found");
+            res.locals.user = user.id;
+            
 
         } else {
             const {rows: [user]} = await connectionDB.query(`SELECT * FROM patient WHERE id=$1`,[patientSession.userId]);
-            console.log(user.id)
-            if(!user) return res.status(401).send("User not found")
+            if(!user) return res.status(401).send("User not found"); 
+            res.locals.user = user.id;       
         }
-
-        res.locals.user = user.id;
-        next();
-
+    next();
 
 
     }catch(err){
-        res.status(500).send(err.message);
+        res.status(500).send(err);
+        console.log(err);
     }
+    
+
+
 }
 export default {authValidation}

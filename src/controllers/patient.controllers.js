@@ -4,7 +4,8 @@ import patientServices from "../services/patient.service.js";
 import connectionDB from "../config/database.js";
 import {v4 as uuidV4} from "uuid";
 import bcrypt from "bcrypt";
-import createSession from "../repositories/doctor.repository.js";
+import appointmentRepository from "../repositories/appointment.repository.js";
+import doctorRepository from "../repositories/doctor.repository.js";
 
 
 
@@ -56,18 +57,53 @@ async function signIn(req,res){
 
 async function createAppointment(req,res){
     const id = res.locals.user;
+    console.log(id);
     const {doctor_id,date,hours} = req.body;
 
+    const {rows:[appointment]} = await connectionDB.query(
+        `
+            SELECT * FROM appointments WHERE "doctor_id"=$1 AND date=$2 AND hours=$3
+        `,[doctor_id, date, hours]
+    );
+    if(appointment) throw new Error("Unavailable");
+
     try{
-        await patientServices.createAppointment({
-            doctor_id,
-            patient_id:id,
-            date,
-            hours
-        });
+        await appointmentRepository.createAppointment({doctor_id, patient_id:id, date, hours});
         return res.sendStatus(201);
     }catch(err){
         res.status(500).send(err.message);
+        console.log(err);
+        
+    }
+}
+
+async function findByDoctor(req,res){
+    const nome = req.query.nome;
+    const especialidade = req.query.especialidade;
+   
+    if(nome){
+        const {rows, rowCount} = await doctorRepository.findByName(nome);
+        console.log(rows);
+        if(!rowCount) throw new Error("Internal Error");
+        return res.send(rows);
+    } else if(especialidade){
+        const {rows, rowCount} = await doctorRepository.findByEspecialty(especialidade);
+        if(!rowCount) throw new Error("Internal Error");
+        return res.send(rows);
+    }
+}
+
+async function getAPpointments(req,res){
+    const patient_id = res.locals.user;
+
+    try{
+        const {rows} = await connectionDB.query(
+            `SELECT appointments.*, doctor.nome, doctor.especialidade 
+            FROM appointments JOIN doctor
+            ON appointments."doctor_id" = doctor.id WHERE "patient_id"=$1`,[patient_id]);   
+        return res.status(201).send(rows);
+    }catch(err){
+        return res.status(500).send(err.message);
     }
 }
 
@@ -75,5 +111,7 @@ async function createAppointment(req,res){
 export default {
     createPatient,
     signIn,
-    createAppointment
+    createAppointment,
+    findByDoctor,
+    getAPpointments
 };
