@@ -47,7 +47,7 @@ async function signIn(req,res){
             
             
         }
-        return res.status(201).send({ token: token });
+        return res.status(201).send({ token: token, image: user.image, name: user.name, id: user.id });
     }catch(err){ 
         res.status(500).send(err.message);
         console.log(err);
@@ -69,7 +69,7 @@ async function createAppointment(req,res){
 
     try{
         await appointmentRepository.createAppointment({doctor_id, patient_id:id, date, hours});
-        return res.sendStatus(201);
+        return res.status(201).send({patient_id: id});
     }catch(err){
         res.status(500).send(err.message);
         console.log(err);
